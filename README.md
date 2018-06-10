@@ -1,1 +1,1 @@
-InventoryExam-Backend
+backend-SSTG
