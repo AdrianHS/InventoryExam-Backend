@@ -190,7 +190,7 @@ function actualizarClientes(req, res, next) {
 function actualizarProductos(req, res, next) {
   var identificador = req.body.identificador;
   var nombre = req.body.nombre;
-  var precioP = parseInt(req.body.precioP);
+  var precioP = req.body.precio;
   var impuesto = req.body.impuesto;
   db.any("Select ModificarProductos ('" + identificador + "','" + nombre + "','" + precioP + "','" + impuesto + "')")
     .then(function () {
