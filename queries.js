@@ -96,7 +96,6 @@ function factura(req, res, next) {
 function crearClientes(req, res, next) {
   var cedula = req.body.cedula;
   var nombre = req.body.nombre;
-  req.body.usuario = req.body.usuario.toString();
   db.any("SELECT Transaccion_InsertarClientes('" + cedula + "','" + nombre + "')")
     .then(function () {
       res.status(200)
@@ -115,7 +114,6 @@ function crearProductos(req, res, next) {
   var nombre = req.body.nombre;
   var precio = parseInt(req.body.precio);
   var impuesto = req.body.impuesto;
-  req.body.usuario = req.body.usuario.toString();
   db.any("SELECT Transaccion_InsertarProductos('" + identificador + "','" + nombre + "','" + precio + "','" + impuesto + "')")
     .then(function () {
       res.status(200)
@@ -136,7 +134,6 @@ function crearInventario(req, res, next) {
   var cantidadMinima = req.body.cantidadMinima;
   var cantidadMaxima = req.body.cantidadMaxima;
   var gravado = req.body.gravado;
-  req.body.usuario = req.body.usuario.toString();
   db.any("SELECT Transaccion_InsertarInventario('" + identificador + "','" + producto + "','" + cantidad + "','" + cantidadMinima + "','" + cantidadMaxima + "','" + gravado + "')")
     .then(function () {
       res.status(200)
@@ -177,7 +174,7 @@ function crearFactura(req, res, next) {
 function actualizarClientes(req, res, next) {
   var cedula = req.body.cedula;
   var nombre = req.body.nombre;
-  db.any("Select ModificarCliente ('" + cedula + "','" + nombre + "'')")
+  db.any("Select ModificarCliente ('" + cedula + "','" + nombre + "')")
     .then(function () {
       res.status(200)
         .json({
