@@ -22,7 +22,11 @@ module.exports = {
   inventario: inventario,
   crearInventario: crearInventario,
   actualizarInventario: actualizarInventario,
-  eliminarInventario: eliminarInventario
+  eliminarInventario: eliminarInventario,
+  factura: factura,
+  crearFactura: crearFactura,
+  actualizarFactura: actualizarFactura,
+  eliminarFactura: eliminarFactura
 };
 /**
  * Funciones para ver la información de cada uno de las tablas.
@@ -65,6 +69,21 @@ function inventario(req, res, next) {
           status: 'success',
           data: data,
           message: 'Se han obtenido todo el inventario'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function factura(req, res, next) {
+  db.any('select * from Facturacion')
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Se han obtenido toda la facturas'
         });
     })
     .catch(function (err) {
@@ -130,6 +149,28 @@ function crearInventario(req, res, next) {
       return next(err);
     });
 }
+
+function crearFactura(req, res, next) {
+  var idFactura = parseInt(req.body.idFactura);
+  var idCliente = req.body.idCliente;
+  var fecha = req.body.fecha;
+  var montoTotal = req.body.montoTotal;
+  var subtotal = req.body.subtotal;
+  var impuestos = req.body.impuestos;
+  var nombreProducto = req.body.nombreProducto;
+  var cantidadProducto = req.body.cantidadProducto;
+  db.any("Select Transaccion_InsertarFacturacion ('" + idFactura + "','" + idCliente + "','" + fecha + "','" + montoTotal + "','" + subtotal + "','" + impuestos + "','" + nombreProducto + "','" + cantidadProducto + "')")
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Se inserto datos en la factura'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
 /**
  * Funciones para modificar la información de cada uno de las tablas.
  */
@@ -187,6 +228,29 @@ function actualizarInventario(req, res, next) {
       return next(err);
     });
 }
+
+function actualizarFactura(req, res, next) {
+  var idFactura = parseInt(req.body.idFactura);
+  var idCliente = req.body.idCliente;
+  var fecha = req.body.fecha;
+  var montoTotal = req.body.montoTotal;
+  var subtotal = req.body.subtotal;
+  var impuestos = req.body.impuestos;
+  var nombreProducto = req.body.nombreProducto;
+  var cantidadProducto = req.body.cantidadProducto;
+  console.log("Select ModificarFacturacion ('" + idFactura + "','" + idCliente + "','" + fecha + "','" + montoTotal + "','" + subtotal + "','" + impuestos + "','" + nombreProducto + "','" + cantidadProducto + "')");
+  db.any("Select ModificarInventario ('" + idFactura + "','" + idCliente + "','" + fecha + "','" + montoTotal + "','" + subtotal + "','" + impuestos + "','" + nombreProducto + "','" + cantidadProducto + "')")
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Se actualizó datos de la factura'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
 /**
  * Funciones para eliminar la información de cada uno de las tablas.
  */
@@ -199,7 +263,7 @@ function eliminarClientes(req, res, next) {
       res.status(200)
         .json({
           status: 'success',
-          message: `Eliminar Cliente ${result.rowCount}`
+          message: `Eliminar factura ${result.rowCount}`
         });
       /* jshint ignore:end */
     })
@@ -230,6 +294,24 @@ function eliminarInventario(req, res, next) {
   var identificador = parseInt(req.params.identificador);
   console.log(req);
   db.result("SELECT EliminarInventario ('" + identificador + "')")
+    .then(function (result) {
+      /* jshint ignore:start */
+      res.status(200)
+        .json({
+          status: 'success',
+          message: `Eliminar Inventario ${result.rowCount}`
+        });
+      /* jshint ignore:end */
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function eliminarFactura(req, res, next) {
+  var idFactura = parseInt(req.params.idFactura);
+  console.log(req);
+  db.result("SELECT EliminarFacturacion ('" + idFactura + "')")
     .then(function (result) {
       /* jshint ignore:start */
       res.status(200)

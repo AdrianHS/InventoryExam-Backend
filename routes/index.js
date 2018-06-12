@@ -21,4 +21,8 @@ router.get('/inventario', db.inventario);
 router.post('/crearInventario', db.crearInventario);
 router.put('/actualizarInventario/:identificador', db.actualizarInventario);
 router.delete('/eliminarInventario/:identificador', db.eliminarInventario);
+router.get('/factura', db.factura);
+router.post('/crearFactura', db.crearFactura);
+router.put('/actualizarFactura/:idFactura', db.actualizarFactura);
+router.delete('/eliminarFactura/:idFactura', db.eliminarFactura);
 module.exports = router;
