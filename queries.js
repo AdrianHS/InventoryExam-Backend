@@ -75,7 +75,6 @@ function inventario(req, res, next) {
  * Funciones para agregar la información de cada uno de las tablas.
  */
 function crearClientes(req, res, next) {
-
   var cedula = req.body.cedula;
   var nombre = req.body.nombre;
   req.body.usuario = req.body.usuario.toString();
@@ -93,11 +92,12 @@ function crearClientes(req, res, next) {
 }
 
 function crearProductos(req, res, next) {
-  var identificador = parseInt(req.body.identificador);
+  var identificador = req.body.identificador;
   var nombre = req.body.nombre;
+  var precio = parseInt(req.body.precio);
   var impuesto = req.body.impuesto;
   req.body.usuario = req.body.usuario.toString();
-  db.any("SELECT Transaccion_InsertarProductos('" + identificador + "','" + nombre + "','" + impuesto + "')")
+  db.any("SELECT Transaccion_InsertarProductos('" + identificador + "','" + nombre + "','" + precio + "','" + impuesto + "')")
     .then(function () {
       res.status(200)
         .json({
@@ -150,10 +150,11 @@ function actualizarClientes(req, res, next) {
 }
 
 function actualizarProductos(req, res, next) {
-  var identificador = parseInt(req.body.identificador);
+  var identificador = req.body.identificador;
   var nombre = req.body.nombre;
+  var precioP = parseInt(req.body.precioP);
   var impuesto = req.body.impuesto;
-  db.any("Select ModificarProductos ('" + identificador + "','" + nombre + "','" + impuesto + "')")
+  db.any("Select ModificarProductos ('" + identificador + "','" + nombre + "','" + precioP + "','" + impuesto + "')")
     .then(function () {
       res.status(200)
         .json({
@@ -226,7 +227,7 @@ function eliminarProductos(req, res, next) {
 }
 
 function eliminarInventario(req, res, next) {
-  var identificador = req.params.identificador;
+  var identificador = parseInt(req.params.identificador);
   console.log(req);
   db.result("SELECT EliminarInventario ('" + identificador + "')")
     .then(function (result) {
